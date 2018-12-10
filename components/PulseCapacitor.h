@@ -1,0 +1,72 @@
+//
+// Created by joseph on 10/12/18.
+//
+
+#ifndef REDSTONE_SYSTEM_PULSECAPACITOR_H
+#define REDSTONE_SYSTEM_PULSECAPACITOR_H
+
+#include "CapacitorComponent.h"
+#include "../Facing.h"
+
+class PulseCapacitor : public CapacitorComponent {
+private:
+    bool field_42;
+    bool field_43;
+    int gap4_48;
+    int gap4_56;
+public:
+    PulseCapacitor() {
+        field_42 = false;
+        field_43 = false;
+    }
+
+    // VTABLE #1
+    ~PulseCapacitor() override {
+        // TODO: impl
+    }
+
+    // VTABLE #2
+    int getStrength() override {
+        return gap4_48;
+    }
+
+    // VTABLE #4
+    void setStrength(int strength) override {
+        gap4_56 = strength;
+        field_43 = strength != 0;
+    }
+
+    // VTABLE #6
+    bool consumePowerAnyDirection() override {
+        return false;
+    }
+
+    // VTABLE #7
+    bool canConsumePower() override {
+        return false;
+    }
+
+    // VTABLE #11
+    long getInstanceType() override {
+        return TYPE_PULSE_CAPACITOR;
+    }
+
+    // VTABLE #14
+    bool allowConnection(CircuitSceneGraph *graph, const CircuitTrackingInfo *trackingInfo, bool *a4) override;
+
+    // VTABLE #16
+    bool evaluate(CircuitSystem *system, const BlockPos *pos) override {
+        ProducerComponent::evaluate(system, pos);
+        field_42 = field_43;
+        field_43 = 0;
+        gap4_56 = 0;
+        return field_42;
+    }
+
+    // VTABLE #24
+    int getPoweroutDirection() override {
+        return Facing::OPPOSTE_FACING[getDirection()];
+    }
+};
+
+#endif //REDSTONE_SYSTEM_PULSECAPACITOR_H

@@ -1,0 +1,10 @@
+//
+// Created by joseph on 10/12/18.
+//
+
+#ifndef REDSTONE_SYSTEM_CIRCUITCOMPONENTLIST_H
+#define REDSTONE_SYSTEM_CIRCUITCOMPONENTLIST_H
+
+class CircuitComponentList;
+
+#endif //REDSTONE_SYSTEM_CIRCUITCOMPONENTLIST_H
