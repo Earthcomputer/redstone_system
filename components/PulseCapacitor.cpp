@@ -5,6 +5,6 @@
 #include "PulseCapacitor.h"
 
 bool PulseCapacitor::allowConnection(CircuitSceneGraph *graph, const CircuitTrackingInfo *trackingInfo, bool *a4) {
-    // TODO: impl
+    return trackingInfo->field_0.field_14 == Facing::OPPOSITE_FACING[getDirection()];
 }
 

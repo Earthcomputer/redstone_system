@@ -8,7 +8,7 @@
 #include "BaseCircuitComponent.h"
 
 class ProducerComponent : public BaseCircuitComponent {
-private:
+protected:
     int field_3C;
     bool field_40;
     bool field_41;

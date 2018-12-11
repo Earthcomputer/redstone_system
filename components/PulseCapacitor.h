@@ -12,8 +12,6 @@ class PulseCapacitor : public CapacitorComponent {
 private:
     bool field_42;
     bool field_43;
-    int gap4_48;
-    int gap4_56;
 public:
     PulseCapacitor() {
         field_42 = false;
@@ -27,12 +25,12 @@ public:
 
     // VTABLE #2
     int getStrength() override {
-        return gap4_48;
+        return field_34;
     }
 
     // VTABLE #4
     void setStrength(int strength) override {
-        gap4_56 = strength;
+        field_3C = strength;
         field_43 = strength != 0;
     }
 
@@ -58,8 +56,8 @@ public:
     bool evaluate(CircuitSystem *system, const BlockPos *pos) override {
         ProducerComponent::evaluate(system, pos);
         field_42 = field_43;
-        field_43 = 0;
-        gap4_56 = 0;
+        field_43 = false;
+        field_3C = 0;
         return field_42;
     }
 
