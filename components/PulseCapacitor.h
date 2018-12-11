@@ -1,5 +1,5 @@
 //
-// Created by joseph on 10/12/18.
+// Created by Earthcomputer on 10/12/18.
 //
 
 #ifndef REDSTONE_SYSTEM_PULSECAPACITOR_H
