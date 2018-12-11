@@ -14,7 +14,7 @@ private:
     int field_48;
     int field_4C;
     int field_50;
-    int field_54;
+    bool field_54;
     int field_58;
     int field_5C;
     int field_60;
@@ -23,7 +23,9 @@ public:
     ComparatorCapacitor();
 
     // VTABLE #1
-    ~ComparatorCapacitor() override;
+    ~ComparatorCapacitor() override {
+        delete field_68;
+    }
 
     // VTABLE #6
     bool consumePowerAnyDirection() override {
@@ -61,6 +63,21 @@ public:
     // VTABLE #24
     Facing::Facing getPoweroutDirection() override {
         return Facing::OPPOSITE_FACING[getDirection()];
+    }
+
+private:
+    int GetRearStrength() {
+        if (field_44 == -1)
+            return field_58;
+        else
+            return field_44;
+    }
+
+    int GetSideStrength() {
+        if (field_48 == -1)
+            return field_5C;
+        else
+            return std::max(field_48, field_4C);
     }
 };
 

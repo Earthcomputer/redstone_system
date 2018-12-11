@@ -148,6 +148,14 @@ public:
     bool trackPowerSource(const CircuitTrackingInfo *trackingInfo, int a3, bool a4, bool a5) {
         // TODO: impl
     }
+
+    void trackPowerSourceDuplicates(const CircuitTrackingInfo *trackingInfo, int a3, bool a4) {
+        // TODO: impl
+    }
+
+    bool hasDirectPower() {
+        // TODO: impl
+    }
 };
 
 #endif //REDSTONE_SYSTEM_BASECIRCUITCOMPONENT_H
