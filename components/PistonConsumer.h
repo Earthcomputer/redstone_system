@@ -34,7 +34,9 @@ public:
     bool addSource(CircuitSceneGraph *graph, const CircuitTrackingInfo *trackingInfo, int *a4, bool *a5) override;
 
     // VTABLE #14
-    bool allowConnection(CircuitSceneGraph *graph, const CircuitTrackingInfo *trackingInfo, bool *a4) override;
+    bool allowConnection(CircuitSceneGraph *graph, const CircuitTrackingInfo *trackingInfo, bool *a4) override {
+        return true;
+    }
 };
 
 #endif //REDSTONE_SYSTEM_PISTONCONSUMER_H
