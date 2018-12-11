@@ -9,6 +9,7 @@
 
 class BaseRailTransporter : public BaseCircuitComponent {
 private:
+    // The type of powered rail?
     bool field_3C;
 public:
     BaseRailTransporter() {
@@ -21,12 +22,12 @@ public:
     }
 
     // VTABLE #10
-    long getBaseType() override {
+    long getBaseType() const override {
         return TYPE_RAIL_TRANSPORTER;
     }
 
     // VTABLE #11
-    long getInstanceType() override {
+    long getInstanceType() const override {
         return TYPE_RAIL_TRANSPORTER;
     }
 
@@ -38,6 +39,9 @@ public:
 
     // VTABLE #16
     bool evaluate(CircuitSystem *system, const BlockPos *pos) override;
+
+private:
+    bool sub_1F60A40(const CircuitTrackingInfo *trackingInfo, int a3, int a4);
 };
 
 #endif //REDSTONE_SYSTEM_BASERAILTRANSPORTER_H

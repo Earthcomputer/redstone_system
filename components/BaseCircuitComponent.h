@@ -25,7 +25,7 @@
 #include "../CircuitSystem.h"
 
 class BaseCircuitComponent {
-protected:
+public:
     CircuitComponentList *field_8;
     bool field_20;
     bool field_21;
@@ -82,12 +82,12 @@ public:
     }
 
     // VTABLE #10
-    virtual long getBaseType() {
+    virtual long getBaseType() const {
         return TYPE_BASE;
     }
 
     // VTABLE #11
-    virtual long getInstanceType() {
+    virtual long getInstanceType() const {
         return TYPE_BASE;
     }
 

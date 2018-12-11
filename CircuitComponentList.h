@@ -21,6 +21,14 @@ public:
         bool field_19;
         int field_1C;
 
+        Item() :
+            field_0(nullptr),
+            field_8(0),
+            field_C(),
+            field_18(6),
+            field_19(false),
+            field_1C(0) {
+        }
         Item(BaseCircuitComponent *component, int i, BlockPos *pos) :
             field_0(component),
             field_8(i),

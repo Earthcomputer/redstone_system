@@ -14,7 +14,7 @@ public:
     struct Entry {
         BaseCircuitComponent *field_0;
         BlockPos field_8;
-        int field_14;
+        signed char field_14;
         long field_18;
     };
 
