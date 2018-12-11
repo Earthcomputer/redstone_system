@@ -26,7 +26,7 @@ public:
     }
 
     // VTABLE #11
-    long getInstanceType() override {
+    long getInstanceType() const override {
         return TYPE_PISTON;
     }
 

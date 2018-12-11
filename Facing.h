@@ -6,8 +6,9 @@
 #define REDSTONE_SYSTEM_FACING_H
 
 namespace Facing {
-    const int DOWN = 0;
-    const int UP = 1;
+    enum Facing {
+        DOWN, UP
+    };
     const signed char OPPOSTE_FACING[7] = {UP, DOWN, 3, 2, 5, 4, 6};
 }
 

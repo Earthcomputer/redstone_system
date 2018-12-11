@@ -26,12 +26,12 @@ public:
     }
 
     // VTABLE #10
-    long getBaseType() override {
+    long getBaseType() const override {
         return TYPE_TRANSPORTER;
     }
 
     // VTABLE #11
-    long getInstanceType() override {
+    long getInstanceType() const override {
         return TYPE_TRANSPORTER;
     }
 

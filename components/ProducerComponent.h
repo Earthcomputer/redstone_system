@@ -38,12 +38,12 @@ public:
     }
 
     // VTABLE #10
-    long getBaseType() override {
+    long getBaseType() const override {
         return TYPE_PRODUCER;
     }
 
     // VTABLE #11
-    long getInstanceType() override {
+    long getInstanceType() const override {
         return TYPE_PRODUCER;
     }
 
@@ -52,6 +52,10 @@ public:
 
     // VTABLE #16
     bool evaluate(CircuitSystem *system, const BlockPos *pos) override;
+
+    bool doesAllowAttachments() {
+        // TODO: impl
+    }
 };
 
 #endif //REDSTONE_SYSTEM_PRODUCERCOMPONENT_H

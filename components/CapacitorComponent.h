@@ -17,17 +17,17 @@ public:
     }
 
     // VTABLE #10
-    long getBaseType() override {
+    long getBaseType() const override {
         return TYPE_CAPACITOR;
     }
 
     // VTABLE #11
-    long getInstanceType() override {
+    long getInstanceType() const override {
         return TYPE_CAPACITOR;
     }
 
     // VTABLE #24
-    virtual int getPoweroutDirection() {
+    virtual signed char getPoweroutDirection() {
         return 6;
     }
 };

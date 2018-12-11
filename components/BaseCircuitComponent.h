@@ -48,7 +48,7 @@ public:
     }
 
     // VTABLE #3
-    virtual int getDirection() {
+    virtual signed char getDirection() {
         return field_38;
     }
 
@@ -146,6 +146,10 @@ public:
 
     void setAllowPowerUp(bool allowPowerUp) {
         field_39 = allowPowerUp;
+    }
+
+    bool trackPowerSource(const CircuitTrackingInfo *trackingInfo, int a3, bool a4, bool a5) {
+        // TODO: impl
     }
 };
 
