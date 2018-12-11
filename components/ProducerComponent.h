@@ -25,7 +25,12 @@ public:
     }
 
     // VTABLE #4
-    void setStrength(int strength) override;
+    void setStrength(int strength) override {
+        field_3C = strength;
+        if (field_21) {
+            field_34 = strength;
+        }
+    }
 
     // VTABLE #8
     bool canStopPower() override {
@@ -53,8 +58,12 @@ public:
     // VTABLE #16
     bool evaluate(CircuitSystem *system, const BlockPos *pos) override;
 
+    void allowAttachments(bool allowAttachments) {
+        field_40 = allowAttachments;
+    }
+
     bool doesAllowAttachments() {
-        // TODO: impl
+        return field_40;
     }
 };
 
