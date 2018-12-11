@@ -6,7 +6,7 @@
 #define REDSTONE_SYSTEM_BLOCKPOS_H
 
 class BlockPos {
-private:
+public:
     int x, y, z;
 public:
     BlockPos() : x(0), y(0), z(0) {}
@@ -24,5 +24,11 @@ public:
         return x == other.x && y == other.y && z == other.z;
     }
 };
+BlockPos operator+(const BlockPos &a, const BlockPos &b) {
+    return {a.x + b.x, a.y + b.y, a.z + b.z};
+}
+BlockPos operator-(const BlockPos &a, const BlockPos &b) {
+    return {b.x - a.x, b.y - a.y, b.z - a.z};
+}
 
 #endif //REDSTONE_SYSTEM_BLOCKPOS_H

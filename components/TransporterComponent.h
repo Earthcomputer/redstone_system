@@ -9,10 +9,10 @@
 
 class TransporterComponent : public BaseCircuitComponent {
 private:
-    bool field_3C;
+    int field_3C;
 public:
     TransporterComponent() {
-        field_3C = false;
+        field_3C = 0;
     }
 
     // VTABLE #1

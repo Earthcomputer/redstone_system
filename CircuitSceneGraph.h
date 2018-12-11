@@ -5,6 +5,11 @@
 #ifndef REDSTONE_SYSTEM_CIRCUITSCENEGRAPH_H
 #define REDSTONE_SYSTEM_CIRCUITSCENEGRAPH_H
 
-class CircuitSceneGraph;
+#include "components/BaseCircuitComponent.h"
+
+class CircuitSceneGraph {
+public:
+    BaseCircuitComponent *getBaseComponent(const BlockPos *pos);
+};
 
 #endif //REDSTONE_SYSTEM_CIRCUITSCENEGRAPH_H

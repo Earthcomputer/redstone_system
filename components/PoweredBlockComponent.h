@@ -57,6 +57,10 @@ public:
     bool hasChildrenSource() override {
         return true;
     }
+
+    bool isPromotedToProducer() {
+        // TODO: impl
+    }
 };
 
 #endif //REDSTONE_SYSTEM_POWEREDBLOCKCOMPONENT_H

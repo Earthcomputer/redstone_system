@@ -54,6 +54,10 @@ public:
     bool isSecondaryPowered() override {
         return field_3B;
     }
+
+    bool isPromotedToProducer() {
+        // TODO: impl
+    }
 };
 
 #endif //REDSTONE_SYSTEM_CONSUMERCOMPONENT_H

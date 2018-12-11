@@ -60,7 +60,7 @@ public:
 
     // VTABLE #24
     Facing::Facing getPoweroutDirection() override {
-        return Facing::OPPOSTE_FACING[getDirection()];
+        return Facing::OPPOSITE_FACING[getDirection()];
     }
 };
 

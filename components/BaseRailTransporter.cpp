@@ -72,7 +72,7 @@ bool BaseRailTransporter::allowConnection(CircuitSceneGraph *graph, const Circui
         return true;
     }
 
-    return Facing::OPPOSTE_FACING[field_38] == trackingInfo->field_0.field_14;
+    return Facing::OPPOSITE_FACING[field_38] == trackingInfo->field_0.field_14;
 }
 
 bool BaseRailTransporter::evaluate(CircuitSystem *system, const BlockPos *pos) {

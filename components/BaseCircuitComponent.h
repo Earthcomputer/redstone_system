@@ -137,6 +137,14 @@ public:
         field_39 = allowPowerUp;
     }
 
+    bool canAllowPowerUp() {
+        // TODO: impl
+    }
+
+    bool canAllowPowerDown() {
+        // TODO: impl
+    }
+
     bool trackPowerSource(const CircuitTrackingInfo *trackingInfo, int a3, bool a4, bool a5) {
         // TODO: impl
     }
