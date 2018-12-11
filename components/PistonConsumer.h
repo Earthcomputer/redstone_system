@@ -9,10 +9,10 @@
 
 class PistonConsumer : public ConsumerComponent {
 private:
-    int field_3F;
+    Facing::Facing field_3F;
 public:
     PistonConsumer() {
-        field_3F = 6;
+        field_3F = Facing::NONE;
     }
 
     // VTABLE #1
@@ -26,7 +26,7 @@ public:
     }
 
     // VTABLE #11
-    long getInstanceType() const override {
+    ComponentType getInstanceType() const override {
         return TYPE_PISTON;
     }
 

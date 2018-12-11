@@ -29,10 +29,10 @@ bool ConsumerComponent::addSource(CircuitSceneGraph *graph, const CircuitTrackin
             }
             case TYPE_CAPACITOR: {
                 *a5 = trackingInfo->field_0.field_14 == Facing::UP;
-                signed char v13 = trackingInfo->field_40.field_0->getDirection();
-                if (v13 != 6) {
+                Facing::Facing v13 = trackingInfo->field_40.field_0->getDirection();
+                if (v13 != Facing::NONE) {
                     auto *capacitor = dynamic_cast<CapacitorComponent *>(trackingInfo->field_40.field_0);
-                    if (capacitor->getPoweroutDirection() != 6) {
+                    if (capacitor->getPoweroutDirection() != Facing::NONE) {
                         v13 = capacitor->getPoweroutDirection();
                     }
                     bool attached = trackingInfo->field_0.field_14 == v13;
@@ -70,8 +70,8 @@ bool ConsumerComponent::allowConnection(CircuitSceneGraph *graph, const CircuitT
     }
 
     auto *capacitor = dynamic_cast<CapacitorComponent *>(trackingInfo->field_0.field_0);
-    signed char dir = capacitor->getPoweroutDirection();
-    if (dir == 6) {
+    Facing::Facing dir = capacitor->getPoweroutDirection();
+    if (dir == Facing::NONE) {
         if (trackingInfo->field_0.field_14 != Facing::UP) {
             return false;
         } else {

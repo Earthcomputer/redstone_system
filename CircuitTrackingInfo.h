@@ -8,14 +8,16 @@
 class BaseCircuitComponent;
 
 #include "BlockPos.h"
+#include "Facing.h"
+#include "components/ComponentType.h"
 
 class CircuitTrackingInfo {
 public:
     struct Entry {
         BaseCircuitComponent *field_0;
         BlockPos field_8;
-        signed char field_14;
-        long field_18;
+        Facing::Facing field_14;
+        ComponentType field_18;
     };
 
     Entry field_0;

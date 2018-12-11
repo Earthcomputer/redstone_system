@@ -5,24 +5,13 @@
 #ifndef REDSTONE_SYSTEM_BASECIRCUITCOMPONENT_H
 #define REDSTONE_SYSTEM_BASECIRCUITCOMPONENT_H
 
-#define TYPE_BASE 1129534275LL
-#define TYPE_RAIL_TRANSPORTER 1296257106LL
-#define TYPE_CONSUMER 1129530179LL
-#define TYPE_PRODUCER 1129533507LL
-#define TYPE_POWERED_BLOCK 1129533506LL
-#define TYPE_TRANSPORTER 1129534546LL
-#define TYPE_PISTON 1296257097LL
-#define TYPE_CAPACITOR 1129530177LL
-#define TYPE_PULSE_CAPACITOR 1296257091LL
-#define TYPE_COMPARATOR 1296253778LL
-#define TYPE_REPEATER 1296257618LL
-#define TYPE_REDSTONE_TORCH 1296258115LL
-
+#include "ComponentType.h"
 #include "../BlockPos.h"
 #include "../CircuitComponentList.h"
 #include "../CircuitTrackingInfo.h"
 #include "../CircuitSceneGraph.h"
 #include "../CircuitSystem.h"
+#include "../Facing.h"
 
 class BaseCircuitComponent {
 public:
@@ -33,7 +22,7 @@ public:
     BlockPos field_24;
     bool field_30;
     int field_34;
-    signed char field_38;
+    Facing::Facing field_38;
     bool field_39;
     bool field_3A;
 public:
@@ -48,7 +37,7 @@ public:
     }
 
     // VTABLE #3
-    virtual signed char getDirection() {
+    virtual Facing::Facing getDirection() {
         return field_38;
     }
 
@@ -58,7 +47,7 @@ public:
     }
 
     // VTABLE #5
-    virtual void setDirection(signed char dir) {
+    virtual void setDirection(Facing::Facing dir) {
         field_38 = dir;
     }
 
@@ -82,12 +71,12 @@ public:
     }
 
     // VTABLE #10
-    virtual long getBaseType() const {
+    virtual ComponentType getBaseType() const {
         return TYPE_BASE;
     }
 
     // VTABLE #11
-    virtual long getInstanceType() const {
+    virtual ComponentType getInstanceType() const {
         return TYPE_BASE;
     }
 

@@ -36,7 +36,7 @@ public:
     }
 
     // VTABLE #11
-    long getInstanceType() const override {
+    ComponentType getInstanceType() const override {
         return TYPE_COMPARATOR;
     }
 
@@ -59,7 +59,7 @@ public:
     void updateDependencies(CircuitSceneGraph *graph, const BlockPos *pos) override;
 
     // VTABLE #24
-    int getPoweroutDirection() override {
+    Facing::Facing getPoweroutDirection() override {
         return Facing::OPPOSTE_FACING[getDirection()];
     }
 };

@@ -38,7 +38,7 @@ bool BaseRailTransporter::addSource(CircuitSceneGraph *graph, const CircuitTrack
             CircuitTrackingInfo trackingInfo1 = *trackingInfo;
             for (auto &item : *component->field_8) {
                 if (item.field_1C - 1 > 0) {
-                    BlockPos pos = item.field_C;
+                    BlockPos pos = item.field_C; // TODO: wat
                     int v18 = item.field_1C;
                     sub_1F60A40(&trackingInfo1, item.field_8 + 1, v18);
                     if (v18 > v13)

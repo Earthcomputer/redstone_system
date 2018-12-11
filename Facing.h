@@ -7,9 +7,9 @@
 
 namespace Facing {
     enum Facing {
-        DOWN, UP
+        DOWN, UP, NORTH, SOUTH, WEST, EAST, NONE // TODO: assuming same as Java edition
     };
-    const signed char OPPOSTE_FACING[7] = {UP, DOWN, 3, 2, 5, 4, 6};
+    const Facing OPPOSTE_FACING[7] = {UP, DOWN, SOUTH, NORTH, EAST, WEST, NONE};
 }
 
 #endif //REDSTONE_SYSTEM_FACING_H

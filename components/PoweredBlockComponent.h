@@ -33,12 +33,12 @@ public:
     }
 
     // VTABLE #10
-    long getBaseType() const override {
+    ComponentType getBaseType() const override {
         return TYPE_POWERED_BLOCK;
     }
 
     // VTABLE #11
-    long getInstanceType() const override {
+    ComponentType getInstanceType() const override {
         return TYPE_POWERED_BLOCK;
     }
 

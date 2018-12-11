@@ -12,7 +12,7 @@ BaseCircuitComponent::BaseCircuitComponent() {
     // field_24
     field_30 = true;
     field_34 = 0;
-    field_38 = 6;
+    field_38 = Facing::NONE;
     field_39 = false;
     field_3A = true;
 }
@@ -38,8 +38,8 @@ bool BaseCircuitComponent::hasSource(BaseCircuitComponent *component) {
     if (field_8->size() <= 0)
         return false;
 
-    for (auto it = field_8->begin(), e = field_8->end(); it != e; ++it) {
-        BaseCircuitComponent *comp = it->field_0;
+    for (auto &it : *field_8) {
+        BaseCircuitComponent *comp = it.field_0;
         if (comp) {
             if (comp == component) {
                 return true;

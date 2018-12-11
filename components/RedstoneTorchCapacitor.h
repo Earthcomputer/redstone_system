@@ -42,7 +42,7 @@ public:
     }
 
     // VTABLE #11
-    long getInstanceType() const override {
+    ComponentType getInstanceType() const override {
         return TYPE_REDSTONE_TORCH;
     }
 
@@ -85,7 +85,7 @@ public:
     }
 
     // VTABLE #24
-    int getPoweroutDirection() override {
+    Facing::Facing getPoweroutDirection() override {
         return Facing::UP;
     }
 

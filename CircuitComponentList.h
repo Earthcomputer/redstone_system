@@ -7,6 +7,7 @@
 
 #include <vector>
 #include "BlockPos.h"
+#include "Facing.h"
 
 class BaseCircuitComponent;
 
@@ -17,7 +18,7 @@ public:
         BaseCircuitComponent *field_0;
         int field_8;
         BlockPos field_C;
-        char field_18;
+        Facing::Facing field_18;
         bool field_19;
         int field_1C;
 
@@ -25,7 +26,7 @@ public:
             field_0(nullptr),
             field_8(0),
             field_C(),
-            field_18(6),
+            field_18(Facing::NONE),
             field_19(false),
             field_1C(0) {
         }
@@ -33,7 +34,7 @@ public:
             field_0(component),
             field_8(i),
             field_C(pos),
-            field_18(6),
+            field_18(Facing::NONE),
             field_19(false),
             field_1C(0) {
         }
