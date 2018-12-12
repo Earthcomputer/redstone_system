@@ -47,6 +47,9 @@ public:
             field_1C(other->field_1C) {
         }
     };
+
+    typedef std::vector<Item>::iterator iterator;
+
 private:
     std::vector<Item> items;
 
@@ -55,15 +58,15 @@ public:
         items.push_back(Item(component, i, pos));
     }
 
-    auto begin() {
+    iterator begin() {
         return items.begin();
     }
 
-    auto end() {
+    iterator end() {
         return items.end();
     }
 
-    auto erase(std::vector<Item>::iterator item) {
+    iterator erase(iterator item) {
         return items.erase(item);
     }
 

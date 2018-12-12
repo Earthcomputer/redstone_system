@@ -14,10 +14,10 @@ private:
     int field_50;
     bool field_54;
     bool field_55;
-    bool gap56;
+    bool field_56;
     bool field_57;
     bool field_58;
-    bool gap59;
+    bool field_59;
     bool field_5A;
 public:
     RedstoneTorchCapacitor() {
@@ -66,11 +66,11 @@ public:
     // VTABLE #16
     bool evaluate(CircuitSystem *system, const BlockPos *pos) override {
         field_54 = field_57;
-        gap56 = gap59;
+        field_56 = field_59;
         if (field_48 && _canIncrementSelfPower()) {
             field_50++;
         }
-        return gap56;
+        return field_56;
     }
 
     // VTABLE #17
@@ -89,10 +89,20 @@ public:
         return Facing::UP;
     }
 
+    void setSelfPowerCount(int selfPowerCount) {
+        field_50 = selfPowerCount;
+    }
+
+    void setNextInQueue(RedstoneTorchCapacitor *torch) {
+        field_48 = torch;
+    }
+
 private:
     bool _canIncrementSelfPower() {
         return !field_5A && field_50 <= 32;
     }
+
+    int FindStrongestStrength(const BlockPos *pos, CircuitSystem *system, bool *a4);
 };
 
 #endif //REDSTONE_SYSTEM_RESTONETORCHCAPACITOR_H
