@@ -14,16 +14,16 @@ class BaseCircuitComponent;
 class CircuitTrackingInfo {
 public:
     struct Entry {
-        BaseCircuitComponent *field_0;
-        BlockPos field_8;
-        Facing::Facing field_14;
-        ComponentType field_18;
+        BaseCircuitComponent *mComponent; // off = 0x0
+        BlockPos mPos; // off = 0x8
+        Facing::Facing mDirection; // off = 0x14
+        ComponentType mComponentType; // off = 0x18
     };
 
-    Entry field_0;
-    Entry field_20;
-    Entry field_40;
-    Entry field_60;
+    Entry entry0; // off = 0x0
+    Entry entry1; // off = 0x20
+    Entry entry2; // off = 0x40
+    Entry entry3; // off = 0x60
     unsigned int field_80;
     bool field_84;
     int field_88;

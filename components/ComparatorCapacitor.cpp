@@ -24,17 +24,17 @@ bool ComparatorCapacitor::removeSource(const BlockPos *pos, const BaseCircuitCom
 
 bool ComparatorCapacitor::addSource(CircuitSceneGraph *graph, const CircuitTrackingInfo *trackingInfo, int *a4,
                                     bool *a5) {
-    if (trackingInfo->field_0.field_14 != Facing::DOWN && trackingInfo->field_0.field_14 != Facing::UP) {
-        if (trackingInfo->field_0.field_14 != getDirection()) {
+    if (trackingInfo->entry0.mDirection != Facing::DOWN && trackingInfo->entry0.mDirection != Facing::UP) {
+        if (trackingInfo->entry0.mDirection != getDirection()) {
             bool connected;
-            if (trackingInfo->field_0.field_14 == Facing::OPPOSITE_FACING[getDirection()]) {
+            if (trackingInfo->entry0.mDirection == Facing::OPPOSITE_FACING[getDirection()]) {
                 connected = true;
             } else {
-                ComponentType componentType = trackingInfo->field_40.field_0->getInstanceType();
+                ComponentType componentType = trackingInfo->entry2.mComponent->getInstanceType();
                 connected = componentType == TYPE_TRANSPORTER || componentType == TYPE_REPEATER || componentType == TYPE_COMPARATOR;
             }
             if (connected) {
-                if (trackingInfo->field_40.field_18 != TYPE_POWERED_BLOCK || trackingInfo->field_40.field_0->hasDirectPower()) {
+                if (trackingInfo->entry2.mComponentType != TYPE_POWERED_BLOCK || trackingInfo->entry2.mComponent->hasDirectPower()) {
                     trackPowerSourceDuplicates(trackingInfo, *a4, *a5);
                 }
             }
@@ -45,21 +45,21 @@ bool ComparatorCapacitor::addSource(CircuitSceneGraph *graph, const CircuitTrack
 
 bool ComparatorCapacitor::allowConnection(CircuitSceneGraph *graph, const CircuitTrackingInfo *trackingInfo,
                                           bool *a4) {
-    return trackingInfo->field_0.field_14 == Facing::OPPOSITE_FACING[getDirection()];
+    return trackingInfo->entry0.mDirection == Facing::OPPOSITE_FACING[getDirection()];
 }
 
 bool ComparatorCapacitor::evaluate(CircuitSystem *system, const BlockPos *pos) {
-    field_50 = field_34;
+    field_50 = mStrength;
     if (field_54) {
-        field_34 = std::max(GetRearStrength() - GetSideStrength(), 0);
+        mStrength = std::max(GetRearStrength() - GetSideStrength(), 0);
     } else {
-        field_34 = GetRearStrength();
-        if (GetSideStrength() > field_34) {
-            field_34 = 0;
+        mStrength = GetRearStrength();
+        if (GetSideStrength() > mStrength) {
+            mStrength = 0;
         }
     }
-    field_34 = std::min(field_34, 15);
-    return field_50 != field_34;
+    mStrength = std::min(mStrength, 15);
+    return field_50 != mStrength;
 }
 
 void ComparatorCapacitor::cacheValues(CircuitSystem *system, const BlockPos *pos) {
@@ -69,9 +69,9 @@ void ComparatorCapacitor::cacheValues(CircuitSystem *system, const BlockPos *pos
     field_58 = 0;
     field_5C = 0;
 
-    for (auto &item : *field_8) {
+    for (auto &item : *mDependencies) {
         if (item.field_19) {
-            int v18 = item.field_0->getStrength() - item.field_8;
+            int v18 = item.mComponent->getStrength() - item.field_8;
             v18 = std::max(v18, 0);
             if (v18 > field_58)
                 field_58 = v18;
@@ -79,7 +79,7 @@ void ComparatorCapacitor::cacheValues(CircuitSystem *system, const BlockPos *pos
     }
 
     for (auto &item : *field_68) {
-        int v12 = item.field_0->getStrength() - item.field_8;
+        int v12 = item.mComponent->getStrength() - item.field_8;
         v12 = std::max(v12, 0);
         if (v12 > field_5C)
             field_5C = v12;
@@ -87,16 +87,16 @@ void ComparatorCapacitor::cacheValues(CircuitSystem *system, const BlockPos *pos
 }
 
 void ComparatorCapacitor::updateDependencies(CircuitSceneGraph *graph, const BlockPos *pos) {
-    for (auto it = field_8->begin(); it != field_8->end();) {
-        if (it->field_0->canStopPower()) {
-            it = field_8->erase(it);
+    for (auto it = mDependencies->begin(); it != mDependencies->end();) {
+        if (it->mComponent->canStopPower()) {
+            it = mDependencies->erase(it);
         } else {
-            if (it->field_0->getDirection() == Facing::OPPOSITE_FACING[getDirection()]) {
+            if (it->mComponent->getDirection() == Facing::OPPOSITE_FACING[getDirection()]) {
                 ++it;
             } else {
-                BlockPos tmp = it->field_C;
-                field_68->add(it->field_0, it->field_8, &tmp);
-                it = field_8->erase(it);
+                BlockPos tmp = it->mPos;
+                field_68->add(it->mComponent, it->field_8, &tmp);
+                it = mDependencies->erase(it);
             }
         }
     }

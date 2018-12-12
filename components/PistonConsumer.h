@@ -37,6 +37,16 @@ public:
     bool allowConnection(CircuitSceneGraph *graph, const CircuitTrackingInfo *trackingInfo, bool *a4) override {
         return true;
     }
+
+    void setBlockPowerFace(Facing::Facing face) {
+        if (face == Facing::DOWN) {
+            field_3F = Facing::UP;
+        } else if (face == Facing::UP) {
+            field_3F = Facing::DOWN;
+        } else {
+            field_3F = face;
+        }
+    }
 };
 
 #endif //REDSTONE_SYSTEM_PISTONCONSUMER_H

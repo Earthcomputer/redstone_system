@@ -25,7 +25,7 @@ public:
 
     // VTABLE #2
     int getStrength() override {
-        return field_34;
+        return mStrength;
     }
 
     // VTABLE #4

@@ -6,20 +6,20 @@
 #include "../Facing.h"
 
 bool BaseRailTransporter::sub_1F60A40(const CircuitTrackingInfo *trackingInfo, int a3, int a4) {
-    for (auto &it : *field_8) {
-        if (it.field_C == trackingInfo->field_20.field_8) {
+    for (auto &item : *mDependencies) {
+        if (item.mPos == trackingInfo->entry1.mPos) {
             return false;
         }
     }
 
     CircuitComponentList::Item item;
     item.field_8 = a3 - 1 < 0 ? 0 : a3 - 1;
-    item.field_C = trackingInfo->field_20.field_8;
-    item.field_18 = trackingInfo->field_0.field_14;
+    item.mPos = trackingInfo->entry1.mPos;
+    item.mDirection = trackingInfo->entry0.mDirection;
     item.field_19 = true;
-    item.field_0 = trackingInfo->field_20.field_0;
+    item.mComponent = trackingInfo->entry1.mComponent;
     item.field_1C = a4 - 1 < 0 ? 0 : a4 - 1;
-    field_8->push_back(&item);
+    mDependencies->push_back(&item);
     return true;
 }
 
@@ -28,24 +28,24 @@ bool BaseRailTransporter::addSource(CircuitSceneGraph *graph, const CircuitTrack
     if (!*a5)
         return false;
 
-    const BaseCircuitComponent *component = trackingInfo->field_40.field_0;
-    auto oldSize = field_8->size();
+    const BaseCircuitComponent *component = trackingInfo->entry2.mComponent;
+    auto oldSize = mDependencies->size();
     int v13 = 0;
     bool v19 = *a5;
     *a5 = true;
     switch (component->getInstanceType()) {
         case TYPE_RAIL_TRANSPORTER: {
             CircuitTrackingInfo trackingInfo1 = *trackingInfo;
-            for (auto &item : *component->field_8) {
+            for (auto &item : *component->mDependencies) {
                 if (item.field_1C - 1 > 0) {
-                    BlockPos pos = item.field_C; // TODO: wat
+                    BlockPos pos = item.mPos; // TODO: wat
                     int v18 = item.field_1C;
                     sub_1F60A40(&trackingInfo1, item.field_8 + 1, v18);
                     if (v18 > v13)
                         v13 = v18;
                 }
             }
-            return field_8->size() != oldSize;
+            return mDependencies->size() != oldSize;
         }
         case TYPE_POWERED_BLOCK: {
             return v19 && sub_1F60A40(trackingInfo, *a4, 10);
@@ -59,31 +59,31 @@ bool BaseRailTransporter::addSource(CircuitSceneGraph *graph, const CircuitTrack
 
 bool BaseRailTransporter::allowConnection(CircuitSceneGraph *graph, const CircuitTrackingInfo *trackingInfo,
                                           bool *a4) {
-    if (trackingInfo->field_0.field_0->getInstanceType() != TYPE_RAIL_TRANSPORTER
-            || field_3C != dynamic_cast<BaseRailTransporter *>(trackingInfo->field_0.field_0)->field_3C) {
+    if (trackingInfo->entry0.mComponent->getInstanceType() != TYPE_RAIL_TRANSPORTER
+            || mRailType != dynamic_cast<BaseRailTransporter *>(trackingInfo->entry0.mComponent)->mRailType) {
         return false;
     }
 
-    if (trackingInfo->field_0.field_0->getDirection() != field_38) {
+    if (trackingInfo->entry0.mComponent->getDirection() != mDirection) {
         return false;
     }
 
-    if (trackingInfo->field_0.field_14 == field_38) {
+    if (trackingInfo->entry0.mDirection == mDirection) {
         return true;
     }
 
-    return Facing::OPPOSITE_FACING[field_38] == trackingInfo->field_0.field_14;
+    return Facing::OPPOSITE_FACING[mDirection] == trackingInfo->entry0.mDirection;
 }
 
 bool BaseRailTransporter::evaluate(CircuitSystem *system, const BlockPos *pos) {
-    int oldVal = field_34;
+    int oldVal = mStrength;
 
-    for (auto &it : *field_8) {
-        int v4 = it.field_1C;
-        if (v4 > field_34 && it.field_0 && it.field_0->getStrength() - it.field_8 > 0) {
-            field_34 = v4;
+    for (auto &item : *mDependencies) {
+        int v4 = item.field_1C;
+        if (v4 > mStrength && item.mComponent && item.mComponent->getStrength() - item.field_8 > 0) {
+            mStrength = v4;
         }
     }
 
-    return field_34 != oldVal;
+    return mStrength != oldVal;
 }

@@ -5,10 +5,10 @@
 #include "ProducerComponent.h"
 
 bool ProducerComponent::allowConnection(CircuitSceneGraph *graph, const CircuitTrackingInfo *trackingInfo, bool *a4) {
-    return field_40 || trackingInfo->field_0.field_0->getBaseType() != TYPE_POWERED_BLOCK;
+    return field_40 || trackingInfo->entry0.mComponent->getBaseType() != TYPE_POWERED_BLOCK;
 }
 
 bool ProducerComponent::evaluate(CircuitSystem *system, const BlockPos *pos) {
-    field_34 = field_3C;
+    mStrength = field_3C;
     return false;
 }

@@ -28,7 +28,7 @@ public:
     void setStrength(int strength) override {
         field_3C = strength;
         if (field_21) {
-            field_34 = strength;
+            mStrength = strength;
         }
     }
 

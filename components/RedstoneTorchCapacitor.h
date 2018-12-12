@@ -10,10 +10,10 @@
 
 class RedstoneTorchCapacitor : public CapacitorComponent {
 private:
-    RedstoneTorchCapacitor *field_48;
-    int field_50;
+    RedstoneTorchCapacitor *mNextInQueue; // off = 0x48
+    int mSelfPowerCount; // off = 0x50
     bool field_54;
-    bool field_55;
+    bool mHalfPulse; // off = 0x55
     bool field_56;
     bool field_57;
     bool field_58;
@@ -21,11 +21,11 @@ private:
     bool field_5A;
 public:
     RedstoneTorchCapacitor() {
-        field_48 = nullptr;
-        field_50 = 0;
+        mNextInQueue = nullptr;
+        mSelfPowerCount = 0;
         field_5A = false;
         field_58 = false;
-        field_55 = false;
+        mHalfPulse = false;
         field_57 = false;
         field_54 = false;
         setAllowPowerUp(true);
@@ -49,8 +49,8 @@ public:
     // VTABLE #12
     bool removeSource(const BlockPos *pos, const BaseCircuitComponent *component) override {
         bool result = BaseCircuitComponent::removeSource(pos, component);
-        if (field_48 == component && field_48) {
-            field_48 = field_48->field_48;
+        if (mNextInQueue == component && mNextInQueue) {
+            mNextInQueue = mNextInQueue->mNextInQueue;
             return true;
         } else {
             return result;
@@ -67,8 +67,8 @@ public:
     bool evaluate(CircuitSystem *system, const BlockPos *pos) override {
         field_54 = field_57;
         field_56 = field_59;
-        if (field_48 && _canIncrementSelfPower()) {
-            field_50++;
+        if (mNextInQueue && _canIncrementSelfPower()) {
+            mSelfPowerCount++;
         }
         return field_56;
     }
@@ -81,7 +81,7 @@ public:
 
     // VTABLE #20
     bool isHalfPulse() override {
-        return field_55;
+        return mHalfPulse;
     }
 
     // VTABLE #24
@@ -90,16 +90,16 @@ public:
     }
 
     void setSelfPowerCount(int selfPowerCount) {
-        field_50 = selfPowerCount;
+        mSelfPowerCount = selfPowerCount;
     }
 
     void setNextInQueue(RedstoneTorchCapacitor *torch) {
-        field_48 = torch;
+        mNextInQueue = torch;
     }
 
 private:
     bool _canIncrementSelfPower() {
-        return !field_5A && field_50 <= 32;
+        return !field_5A && mSelfPowerCount <= 32;
     }
 
     int FindStrongestStrength(const BlockPos *pos, CircuitSystem *system, bool *a4);

@@ -5,27 +5,27 @@
 #include "BaseCircuitComponent.h"
 
 BaseCircuitComponent::BaseCircuitComponent() {
-    field_8 = new CircuitComponentList;
+    mDependencies = new CircuitComponentList;
     field_20 = false;
     field_21 = true;
     field_22 = false;
     // field_24
     field_30 = true;
-    field_34 = 0;
-    field_38 = Facing::NONE;
-    field_39 = false;
+    mStrength = 0;
+    mDirection = Facing::NONE;
+    mAllowPowerUp = false;
     field_3A = true;
 }
 
 BaseCircuitComponent::~BaseCircuitComponent() {
-    delete field_8;
+    delete mDependencies;
 }
 
 bool BaseCircuitComponent::removeSource(const BlockPos *pos, const BaseCircuitComponent *component) {
     bool removedAny = false;
-    for (auto it = field_8->begin(); it != field_8->end();) {
-        if (it->field_C == *pos) {
-            it = field_8->erase(it);
+    for (auto it = mDependencies->begin(); it != mDependencies->end();) {
+        if (it->mPos == *pos) {
+            it = mDependencies->erase(it);
             removedAny = true;
         } else {
             ++it;
@@ -35,11 +35,11 @@ bool BaseCircuitComponent::removeSource(const BlockPos *pos, const BaseCircuitCo
 }
 
 bool BaseCircuitComponent::hasSource(BaseCircuitComponent *component) {
-    if (field_8->size() <= 0)
+    if (mDependencies->size() <= 0)
         return false;
 
-    for (auto &it : *field_8) {
-        BaseCircuitComponent *comp = it.field_0;
+    for (auto &item : *mDependencies) {
+        BaseCircuitComponent *comp = item.mComponent;
         if (comp) {
             if (comp == component) {
                 return true;

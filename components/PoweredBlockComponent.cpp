@@ -8,9 +8,9 @@
 
 int PoweredBlockComponent::getStrength() {
     int maxStrength = 0;
-    for (size_t i = 0; i < field_8->size(); i++) {
-        CircuitComponentList::Item item = field_8->at(i);
-        int strength = item.field_0->getStrength() - item.field_8;
+    for (size_t i = 0; i < mDependencies->size(); i++) {
+        CircuitComponentList::Item item = mDependencies->at(i);
+        int strength = item.mComponent->getStrength() - item.field_8;
         if (strength < 0)
             strength = 0;
         if (maxStrength < strength)
@@ -24,12 +24,12 @@ bool PoweredBlockComponent::addSource(CircuitSceneGraph *graph, const CircuitTra
     if (!field_3C)
         return false;
 
-    ComponentType componentType = trackingInfo->field_40.field_18;
+    ComponentType componentType = trackingInfo->entry2.mComponentType;
 
-    if (field_39)
+    if (mAllowPowerUp)
         return false;
 
-    field_3B = false;
+    mPromotedToProducer = false;
 
     if (componentType == TYPE_CONSUMER || componentType == TYPE_POWERED_BLOCK) {
         *a5 = false;
@@ -38,26 +38,26 @@ bool PoweredBlockComponent::addSource(CircuitSceneGraph *graph, const CircuitTra
 
     switch (componentType) {
         case TYPE_PRODUCER: {
-            auto *producer = dynamic_cast<ProducerComponent *>(trackingInfo->field_40.field_0);
-            bool powered = producer->doesAllowAttachments() && trackingInfo->field_0.field_14 == producer->getDirection();
+            auto *producer = dynamic_cast<ProducerComponent *>(trackingInfo->entry2.mComponent);
+            bool powered = producer->doesAllowAttachments() && trackingInfo->entry0.mDirection == producer->getDirection();
             *a5 = powered;
-            field_3B = powered;
+            mPromotedToProducer = powered;
             break;
         }
         case TYPE_CAPACITOR: {
-            auto *capacitor = dynamic_cast<CapacitorComponent *>(trackingInfo->field_40.field_0);
-            bool powered = trackingInfo->field_0.field_14 == capacitor->getPoweroutDirection();
+            auto *capacitor = dynamic_cast<CapacitorComponent *>(trackingInfo->entry2.mComponent);
+            bool powered = trackingInfo->entry0.mDirection == capacitor->getPoweroutDirection();
             *a5 = powered;
-            field_3B = powered;
-            if (!field_3B && capacitor->getInstanceType() == TYPE_REDSTONE_TORCH) {
+            mPromotedToProducer = powered;
+            if (!mPromotedToProducer && capacitor->getInstanceType() == TYPE_REDSTONE_TORCH) {
                 return false;
             }
             break;
         }
         case TYPE_TRANSPORTER: {
-            *a5 |= trackingInfo->field_40.field_14 == trackingInfo->field_0.field_14
-                    && trackingInfo->field_40.field_8.y == trackingInfo->field_0.field_8.y;
-            *a5 |= trackingInfo->field_0.field_14 == Facing::DOWN;
+            *a5 |= trackingInfo->entry2.mDirection == trackingInfo->entry0.mDirection
+                    && trackingInfo->entry2.mPos.y == trackingInfo->entry0.mPos.y;
+            *a5 |= trackingInfo->entry0.mDirection == Facing::DOWN;
             break;
         }
         default: {
@@ -69,9 +69,9 @@ bool PoweredBlockComponent::addSource(CircuitSceneGraph *graph, const CircuitTra
 
 bool PoweredBlockComponent::allowConnection(CircuitSceneGraph *graph, const CircuitTrackingInfo *trackingInfo,
                                             bool *a4) {
-    if (trackingInfo->field_0.field_18 == TYPE_TRANSPORTER)
-        return field_3B;
+    if (trackingInfo->entry0.mComponentType == TYPE_TRANSPORTER)
+        return mPromotedToProducer;
     else
-        return trackingInfo->field_0.field_18 != TYPE_POWERED_BLOCK;
+        return trackingInfo->entry0.mComponentType != TYPE_POWERED_BLOCK;
 }
 

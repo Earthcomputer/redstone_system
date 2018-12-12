@@ -10,11 +10,11 @@
 // Seems to be e.g. stone powered by a repeater. Not a redstone block.
 class PoweredBlockComponent : public BaseCircuitComponent {
 private:
-    bool field_3B;
+    bool mPromotedToProducer; // off = 0x3B
     bool field_3C;
 public:
     PoweredBlockComponent() {
-        field_3B = false;
+        mPromotedToProducer = false;
         field_3C = true;
         field_21 = false;
     }
@@ -59,7 +59,7 @@ public:
     }
 
     bool isPromotedToProducer() {
-        return field_3B;
+        return mPromotedToProducer;
     }
 };
 

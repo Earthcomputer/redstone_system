@@ -5,15 +5,15 @@
 #include "PistonConsumer.h"
 
 bool PistonConsumer::addSource(CircuitSceneGraph *graph, const CircuitTrackingInfo *trackingInfo, int *a4, bool *a5) {
-    if (field_3F != trackingInfo->field_0.field_14) {
-        ComponentType componentType = trackingInfo->field_40.field_18;
+    if (field_3F != trackingInfo->entry0.mDirection) {
+        ComponentType componentType = trackingInfo->entry2.mComponentType;
         if (componentType == TYPE_CAPACITOR) {
-            if (trackingInfo->field_0.field_14 == trackingInfo->field_40.field_0->getDirection())
+            if (trackingInfo->entry0.mDirection == trackingInfo->entry2.mComponent->getDirection())
                 return false;
         } else if (componentType == TYPE_POWERED_BLOCK && !*a5) {
             return false;
         }
-        trackPowerSource(trackingInfo, *a4, *a5, trackingInfo->field_0.field_14 == Facing::OPPOSITE_FACING[getDirection()]);
+        trackPowerSource(trackingInfo, *a4, *a5, trackingInfo->entry0.mDirection == Facing::OPPOSITE_FACING[getDirection()]);
     }
     return false;
 }

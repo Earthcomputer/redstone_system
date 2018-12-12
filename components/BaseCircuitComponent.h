@@ -15,15 +15,15 @@
 
 class BaseCircuitComponent {
 public:
-    CircuitComponentList *field_8;
+    CircuitComponentList *mDependencies; // off = 0x8
     bool field_20;
     bool field_21;
     bool field_22;
     BlockPos field_24;
     bool field_30;
-    int field_34;
-    Facing::Facing field_38;
-    bool field_39;
+    int mStrength; // off = 0x34
+    Facing::Facing mDirection; // off = 0x38
+    bool mAllowPowerUp; // off = 0x39
     bool field_3A;
 public:
     BaseCircuitComponent();
@@ -33,22 +33,22 @@ public:
 
     // VTABLE #2
     virtual int getStrength() {
-        return field_34;
+        return mStrength;
     }
 
     // VTABLE #3
     virtual Facing::Facing getDirection() {
-        return field_38;
+        return mDirection;
     }
 
     // VTABLE #4
     virtual void setStrength(int strength) {
-        field_34 = strength;
+        mStrength = strength;
     }
 
     // VTABLE #5
     virtual void setDirection(Facing::Facing dir) {
-        field_38 = dir;
+        mDirection = dir;
     }
 
     // VTABLE #6
@@ -134,11 +134,11 @@ public:
     }
 
     void setAllowPowerUp(bool allowPowerUp) {
-        field_39 = allowPowerUp;
+        mAllowPowerUp = allowPowerUp;
     }
 
     bool canAllowPowerUp() {
-        // TODO: impl
+        return mAllowPowerUp;
     }
 
     bool canAllowPowerDown() {

@@ -9,11 +9,10 @@
 
 class BaseRailTransporter : public BaseCircuitComponent {
 private:
-    // The type of powered rail?
-    bool field_3C;
+    bool mRailType; // off = 0x3C
 public:
     BaseRailTransporter() {
-        field_3C = false;
+        mRailType = false;
     }
 
     // VTABLE #1

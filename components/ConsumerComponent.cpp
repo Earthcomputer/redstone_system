@@ -13,33 +13,33 @@ bool ConsumerComponent::addSource(CircuitSceneGraph *graph, const CircuitTrackin
     *a5 = false;
     field_3D = false;
 
-    long componentType = trackingInfo->field_40.field_18;
+    long componentType = trackingInfo->entry2.mComponentType;
     if (componentType == TYPE_POWERED_BLOCK && !v15)
         return false;
 
     if (field_3C) {
         switch (componentType) {
             case TYPE_PRODUCER: {
-                auto *producer = dynamic_cast<ProducerComponent *>(trackingInfo->field_40.field_0);
+                auto *producer = dynamic_cast<ProducerComponent *>(trackingInfo->entry2.mComponent);
                 bool attached = producer->doesAllowAttachments()
-                        && trackingInfo->field_0.field_14 == producer->getDirection();
+                        && trackingInfo->entry0.mDirection == producer->getDirection();
                 *a5 = attached;
                 field_3D = attached;
                 break;
             }
             case TYPE_CAPACITOR: {
-                *a5 = trackingInfo->field_0.field_14 == Facing::UP;
-                Facing::Facing v13 = trackingInfo->field_40.field_0->getDirection();
+                *a5 = trackingInfo->entry0.mDirection == Facing::UP;
+                Facing::Facing v13 = trackingInfo->entry2.mComponent->getDirection();
                 if (v13 != Facing::NONE) {
-                    auto *capacitor = dynamic_cast<CapacitorComponent *>(trackingInfo->field_40.field_0);
+                    auto *capacitor = dynamic_cast<CapacitorComponent *>(trackingInfo->entry2.mComponent);
                     if (capacitor->getPoweroutDirection() != Facing::NONE) {
                         v13 = capacitor->getPoweroutDirection();
                     }
-                    bool attached = trackingInfo->field_0.field_14 == v13;
+                    bool attached = trackingInfo->entry0.mDirection == v13;
                     *a5 = attached;
                     field_3D = attached;
                 }
-                if (trackingInfo->field_0.field_14 == trackingInfo->field_40.field_0->getDirection())
+                if (trackingInfo->entry0.mDirection == trackingInfo->entry2.mComponent->getDirection())
                     return false;
                 break;
             }
@@ -60,7 +60,7 @@ bool ConsumerComponent::addSource(CircuitSceneGraph *graph, const CircuitTrackin
 }
 
 bool ConsumerComponent::allowConnection(CircuitSceneGraph *graph, const CircuitTrackingInfo *trackingInfo, bool *a4) {
-    long componentType = trackingInfo->field_0.field_18;
+    long componentType = trackingInfo->entry0.mComponentType;
     if (componentType != TYPE_CAPACITOR) {
         if (componentType == TYPE_TRANSPORTER && field_3C) {
             return field_3D;
@@ -69,16 +69,16 @@ bool ConsumerComponent::allowConnection(CircuitSceneGraph *graph, const CircuitT
         }
     }
 
-    auto *capacitor = dynamic_cast<CapacitorComponent *>(trackingInfo->field_0.field_0);
+    auto *capacitor = dynamic_cast<CapacitorComponent *>(trackingInfo->entry0.mComponent);
     Facing::Facing dir = capacitor->getPoweroutDirection();
     if (dir == Facing::NONE) {
-        if (trackingInfo->field_0.field_14 != Facing::UP) {
+        if (trackingInfo->entry0.mDirection != Facing::UP) {
             return false;
         } else {
             return trackingInfo->field_84;
         }
     }
-    if (trackingInfo->field_0.field_14 == dir) {
+    if (trackingInfo->entry0.mDirection == dir) {
         return trackingInfo->field_84;
     } else {
         return false;
@@ -86,25 +86,25 @@ bool ConsumerComponent::allowConnection(CircuitSceneGraph *graph, const CircuitT
 }
 
 bool ConsumerComponent::evaluate(CircuitSystem *system, const BlockPos *pos) {
-    field_3B = false;
+    mSecondaryPowered = false;
 
     int v11 = 0;
-    for (auto &it : *field_8) {
-        int v6 = it.field_0->getStrength() - it.field_8;
-        if (it.field_0->isHalfPulse() && !field_3E) {
+    for (auto &it : *mDependencies) {
+        int v6 = it.mComponent->getStrength() - it.field_8;
+        if (it.mComponent->isHalfPulse() && !field_3E) {
             v6 = 15 - it.field_8;
         }
         if (v6 < 0) {
             v6 = 0;
         }
         if (v11 < v6) {
-            field_3B = it.field_1C == 1;
+            mSecondaryPowered = it.field_1C == 1;
             v11 = v6;
         }
     }
 
-    bool v3 = field_34 != v11;
-    field_34 = v11;
+    bool v3 = mStrength != v11;
+    mStrength = v11;
     return v3 || field_21;
 }
 

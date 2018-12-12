@@ -9,13 +9,13 @@
 
 class ConsumerComponent : public BaseCircuitComponent {
 private:
-    bool field_3B;
+    bool mSecondaryPowered; // off = 0x3B
     bool field_3C;
     bool field_3D;
     bool field_3E;
 public:
     ConsumerComponent() {
-        field_3B = false;
+        mSecondaryPowered = false;
         field_3C = false;
         field_3D = false;
         field_3E = false;
@@ -52,7 +52,7 @@ public:
 
     // VTABLE #23
     bool isSecondaryPowered() override {
-        return field_3B;
+        return mSecondaryPowered;
     }
 
     bool isPromotedToProducer() {

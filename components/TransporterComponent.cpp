@@ -88,27 +88,27 @@ bool sub_1F618B0(CircuitSceneGraph *graph, const BlockPos *a2, const BlockPos *a
 }
 
 bool sub_1F61A30(const CircuitTrackingInfo *trackingInfo) {
-    switch (trackingInfo->field_60.field_18) {
+    switch (trackingInfo->entry3.mComponentType) {
         case TYPE_POWERED_BLOCK: {
-            return dynamic_cast<PoweredBlockComponent *>(trackingInfo->field_60.field_0)->isPromotedToProducer();
+            return dynamic_cast<PoweredBlockComponent *>(trackingInfo->entry3.mComponent)->isPromotedToProducer();
         }
         case TYPE_CONSUMER: {
-            return dynamic_cast<ConsumerComponent *>(trackingInfo->field_60.field_0)->isPromotedToProducer();
+            return dynamic_cast<ConsumerComponent *>(trackingInfo->entry3.mComponent)->isPromotedToProducer();
         }
         case TYPE_PRODUCER: {
             return true;
         }
         default: {
-            return trackingInfo->field_60.field_0->getInstanceType() == TYPE_REDSTONE_TORCH;
+            return trackingInfo->entry3.mComponent->getInstanceType() == TYPE_REDSTONE_TORCH;
         }
     }
 }
 
 bool TransporterComponent::addSource(CircuitSceneGraph *graph, const CircuitTrackingInfo *trackingInfo, int *a4,
                                      bool *a5) {
-    ComponentType componentType = trackingInfo->field_40.field_18;
+    ComponentType componentType = trackingInfo->entry2.mComponentType;
     if (componentType != TYPE_POWERED_BLOCK && componentType != TYPE_TRANSPORTER && componentType != TYPE_CONSUMER) {
-        if (trackingInfo->field_0.field_14 == Facing::OPPOSITE_FACING[trackingInfo->field_0.field_0->getDirection()]) {
+        if (trackingInfo->entry0.mDirection == Facing::OPPOSITE_FACING[trackingInfo->entry0.mComponent->getDirection()]) {
             trackPowerSource(trackingInfo, *a4, *a5, false);
         }
     }
@@ -117,36 +117,36 @@ bool TransporterComponent::addSource(CircuitSceneGraph *graph, const CircuitTrac
 
 bool TransporterComponent::allowConnection(CircuitSceneGraph *graph, const CircuitTrackingInfo *trackingInfo,
                                            bool *a4) {
-    if (trackingInfo->field_0.field_14 == Facing::UP) {
+    if (trackingInfo->entry0.mDirection == Facing::UP) {
         return false;
     }
-    if (trackingInfo->field_0.field_14 == Facing::DOWN) {
+    if (trackingInfo->entry0.mDirection == Facing::DOWN) {
         return true;
     }
-    if (trackingInfo->field_0.field_0->consumePowerAnyDirection()) {
+    if (trackingInfo->entry0.mComponent->consumePowerAnyDirection()) {
         return true;
     }
 
-    ComponentType componentType = trackingInfo->field_0.field_18;
+    ComponentType componentType = trackingInfo->entry0.mComponentType;
     if (componentType == TYPE_TRANSPORTER) {
-        BlockPos pos = trackingInfo->field_0.field_8 - trackingInfo->field_40.field_8;
+        BlockPos pos = trackingInfo->entry0.mPos - trackingInfo->entry2.mPos;
         if (pos.y >= 0) {
-            if (pos.y > 0 && sub_1F61B00(graph, &trackingInfo->field_40.field_8)) {
+            if (pos.y > 0 && sub_1F61B00(graph, &trackingInfo->entry2.mPos)) {
                 return false;
             }
         } else {
-            if (sub_1F61B00(graph, &trackingInfo->field_0.field_8)) {
+            if (sub_1F61B00(graph, &trackingInfo->entry0.mPos)) {
                 return false;
             }
-            if (sub_1F61B80(graph, &trackingInfo->field_40.field_8)) {
+            if (sub_1F61B80(graph, &trackingInfo->entry2.mPos)) {
                 return false;
             }
         }
         return true;
     }
 
-    BlockPos pos = trackingInfo->field_60.field_8 - trackingInfo->field_0.field_8;
-    const BlockPos *v15 = &trackingInfo->field_40.field_8;
+    BlockPos pos = trackingInfo->entry3.mPos - trackingInfo->entry0.mPos;
+    const BlockPos *v15 = &trackingInfo->entry2.mPos;
     if (pos.z == -2 || pos.z == 2) {
         bool v14 = !sub_1F61760(graph, v15, Facing::EAST)
                    && !sub_1F61760(graph, v15, Facing::WEST);
@@ -157,14 +157,14 @@ bool TransporterComponent::allowConnection(CircuitSceneGraph *graph, const Circu
         return v14;
     } else {
         if ((pos.y == 1 || pos.y == -1) && (pos.x != 0 || pos.z != 0)) {
-            BlockPos tmp = trackingInfo->field_40.field_8 - trackingInfo->field_0.field_8;
+            BlockPos tmp = trackingInfo->entry2.mPos - trackingInfo->entry0.mPos;
             *a4 = sub_1F618B0(graph, v15, &tmp);
             return *a4;
         }
-        if ((trackingInfo->field_0.field_18 == TYPE_POWERED_BLOCK ||
-             trackingInfo->field_0.field_18 == TYPE_CONSUMER)
+        if ((trackingInfo->entry0.mComponentType == TYPE_POWERED_BLOCK ||
+             trackingInfo->entry0.mComponentType == TYPE_CONSUMER)
             && pos.y == 0 && pos.x != 0 && pos.z != 0) {
-            BlockPos tmp = trackingInfo->field_40.field_8 - trackingInfo->field_0.field_8;
+            BlockPos tmp = trackingInfo->entry2.mPos - trackingInfo->entry0.mPos;
             *a4 = sub_1F618B0(graph, v15, &tmp);
             return *a4;
         }
@@ -184,15 +184,15 @@ bool TransporterComponent::allowConnection(CircuitSceneGraph *graph, const Circu
 }
 
 bool TransporterComponent::evaluate(CircuitSystem *system, const BlockPos *pos) {
-    bool ret = field_34 != field_3C;
-    field_34 = field_3C;
+    bool ret = mStrength != field_3C;
+    mStrength = field_3C;
     return ret;
 }
 
 void TransporterComponent::cacheValues(CircuitSystem *system, const BlockPos *pos) {
     int v10 = 0;
-    for (auto &item : *field_8) {
-        int v6 = item.field_0->getStrength() - item.field_8;
+    for (auto &item : *mDependencies) {
+        int v6 = item.mComponent->getStrength() - item.field_8;
         if (v6 < 0)
             v6 = 0;
         if (v10 < v6)

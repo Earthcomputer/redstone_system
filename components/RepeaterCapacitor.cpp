@@ -6,7 +6,7 @@
 
 RepeaterCapacitor::RepeaterCapacitor() {
     field_58 = 0;
-    field_5C = false;
+    mOn = false;
     field_5D = false;
     field_5E = true;
     field_60 = 0;
@@ -25,10 +25,10 @@ bool RepeaterCapacitor::removeSource(const BlockPos *pos, const BaseCircuitCompo
 
 bool RepeaterCapacitor::addSource(CircuitSceneGraph *graph, const CircuitTrackingInfo *trackingInfo, int *a4,
                                   bool *a5) {
-    bool sameDir = trackingInfo->field_0.field_14 == getDirection();
-    bool oppositeDir = trackingInfo->field_0.field_14 == Facing::OPPOSITE_FACING[getDirection()];
-    if ((trackingInfo->field_40.field_18 != TYPE_POWERED_BLOCK || (trackingInfo->field_40.field_0->hasDirectPower() && *a5)) && !sameDir) {
-        ComponentType componentType = trackingInfo->field_40.field_0->getInstanceType();
+    bool sameDir = trackingInfo->entry0.mDirection == getDirection();
+    bool oppositeDir = trackingInfo->entry0.mDirection == Facing::OPPOSITE_FACING[getDirection()];
+    if ((trackingInfo->entry2.mComponentType != TYPE_POWERED_BLOCK || (trackingInfo->entry2.mComponent->hasDirectPower() && *a5)) && !sameDir) {
+        ComponentType componentType = trackingInfo->entry2.mComponent->getInstanceType();
         if (oppositeDir || componentType == TYPE_REPEATER || componentType == TYPE_COMPARATOR)
             trackPowerSource(trackingInfo, *a4, *a5, oppositeDir);
     }
@@ -36,13 +36,13 @@ bool RepeaterCapacitor::addSource(CircuitSceneGraph *graph, const CircuitTrackin
 }
 
 bool RepeaterCapacitor::allowConnection(CircuitSceneGraph *graph, const CircuitTrackingInfo *trackingInfo, bool *a4) {
-    return trackingInfo->field_0.field_14 == Facing::OPPOSITE_FACING[getDirection()];
+    return trackingInfo->entry0.mDirection == Facing::OPPOSITE_FACING[getDirection()];
 }
 
 void RepeaterCapacitor::checkLock() {
     field_5E = false;
     for (auto &item : *field_68) {
-        int v10 = item.field_0->getStrength() - item.field_8;
+        int v10 = item.mComponent->getStrength() - item.field_8;
         v10 = std::max(v10, 0);
         if (v10 > 0) {
             field_5E = true;
@@ -55,7 +55,7 @@ void RepeaterCapacitor::checkLock() {
 }
 
 bool RepeaterCapacitor::evaluate(CircuitSystem *system, const BlockPos *pos) {
-    bool oldVal = field_5C;
+    bool oldVal = mOn;
     if (!field_5E) {
         delayPulse(field_5D);
         if (field_58 > 0) {
@@ -65,15 +65,15 @@ bool RepeaterCapacitor::evaluate(CircuitSystem *system, const BlockPos *pos) {
                 extendPulse();
             }
         }
-        field_5C = field_44[0] == 1 || field_44[0] == 3;
+        mOn = field_44[0] == 1 || field_44[0] == 3;
     }
-    return oldVal != field_5C;
+    return oldVal != mOn;
 }
 
 void RepeaterCapacitor::cacheValues(CircuitSystem *system, const BlockPos *pos) {
     field_5D = false;
-    for (auto &item : *field_8) {
-        int v9 = item.field_0->getStrength() - item.field_8;
+    for (auto &item : *mDependencies) {
+        int v9 = item.mComponent->getStrength() - item.field_8;
         v9 = std::max(v9, 0);
         if (v9 > 0) {
             field_5D = true;
@@ -95,13 +95,13 @@ void RepeaterCapacitor::cacheValues(CircuitSystem *system, const BlockPos *pos) 
 }
 
 void RepeaterCapacitor::updateDependencies(CircuitSceneGraph *graph, const BlockPos *pos) {
-    for (auto it = field_8->begin(); it != field_8->end();) {
+    for (auto it = mDependencies->begin(); it != mDependencies->end();) {
         if (it->field_1C == 1) {
             ++it;
         } else {
-            BlockPos tmp = it->field_C;
-            field_68->add(it->field_0, it->field_8, &tmp);
-            it = field_8->erase(it);
+            BlockPos tmp = it->mPos;
+            field_68->add(it->mComponent, it->field_8, &tmp);
+            it = mDependencies->erase(it);
         }
     }
 }

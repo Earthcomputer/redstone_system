@@ -12,7 +12,7 @@ class RepeaterCapacitor : public CapacitorComponent {
 private:
     int field_44[5];
     int field_58;
-    bool field_5C;
+    bool mOn; // off = 0x5C
     bool field_5D; // TODO: what type should this be? delayPulse() suggests it's not a bool, but alignment suggests it's not an int
     bool field_5E;
     int field_60;
@@ -29,14 +29,14 @@ public:
 
     // VTABLE #2
     int getStrength() override {
-        return field_5C ? 15 : 0;
+        return mOn ? 15 : 0;
     }
 
     // VTABLE #4
     void setStrength(int strength) override {
-        field_5C = strength != 0;
+        mOn = strength != 0;
         for (int i = 0; i < field_58 + 1; i++) {
-            field_44[i] = field_5C ? 3 : 2;
+            field_44[i] = mOn ? 3 : 2;
         }
         for (int i = field_58 + 1; i <= 4; i++) {
             field_44[i] = 0;
