@@ -59,7 +59,7 @@ public:
     }
 
     bool isPromotedToProducer() {
-        // TODO: impl
+        return field_3B;
     }
 };
 

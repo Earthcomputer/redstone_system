@@ -74,6 +74,10 @@ public:
         return items.push_back(Item(item));
     }
 
+    auto at(size_t index) {
+        return items.at(index);
+    }
+
     bool removeSource(const BlockPos *a2, const BaseCircuitComponent *a3) {
         bool erasedAny = false;
         for (auto it = items.begin(); it != items.end();) {
