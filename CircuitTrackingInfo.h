@@ -24,7 +24,7 @@ public:
     Entry entry1; // off = 0x20
     Entry entry2; // off = 0x40
     Entry entry3; // off = 0x60
-    unsigned int field_80;
+    int field_80;
     bool field_84;
     int field_88;
 

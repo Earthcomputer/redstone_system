@@ -9,16 +9,16 @@ ComparatorCapacitor::ComparatorCapacitor() {
     field_48 = -1;
     field_4C = -1;
     field_50 = 0;
-    field_54 = false;
-    field_58 = 0;
-    field_5C = 0;
+    mSubtractMode = false;
+    mCachedRearStrength = 0;
+    mCachedSideStrength = 0;
     field_60 = 0;
-    field_68 = new CircuitComponentList;
+    mSideDependencies = new CircuitComponentList;
 }
 
 bool ComparatorCapacitor::removeSource(const BlockPos *pos, const BaseCircuitComponent *component) {
     bool baseRemoved = BaseCircuitComponent::removeSource(pos, component);
-    bool comparatorRemoved = field_68->removeSource(pos, component);
+    bool comparatorRemoved = mSideDependencies->removeSource(pos, component);
     return baseRemoved || comparatorRemoved;
 }
 
@@ -50,7 +50,7 @@ bool ComparatorCapacitor::allowConnection(CircuitSceneGraph *graph, const Circui
 
 bool ComparatorCapacitor::evaluate(CircuitSystem *system, const BlockPos *pos) {
     field_50 = mStrength;
-    if (field_54) {
+    if (mSubtractMode) {
         mStrength = std::max(GetRearStrength() - GetSideStrength(), 0);
     } else {
         mStrength = GetRearStrength();
@@ -66,23 +66,23 @@ void ComparatorCapacitor::cacheValues(CircuitSystem *system, const BlockPos *pos
     if (!field_60)
         return;
 
-    field_58 = 0;
-    field_5C = 0;
+    mCachedRearStrength = 0;
+    mCachedSideStrength = 0;
 
     for (auto &item : *mDependencies) {
         if (item.field_19) {
-            int v18 = item.mComponent->getStrength() - item.field_8;
-            v18 = std::max(v18, 0);
-            if (v18 > field_58)
-                field_58 = v18;
+            int strength = item.mComponent->getStrength() - item.field_8;
+            strength = std::max(strength, 0);
+            if (strength > mCachedRearStrength)
+                mCachedRearStrength = strength;
         }
     }
 
-    for (auto &item : *field_68) {
-        int v12 = item.mComponent->getStrength() - item.field_8;
-        v12 = std::max(v12, 0);
-        if (v12 > field_5C)
-            field_5C = v12;
+    for (auto &item : *mSideDependencies) {
+        int strength = item.mComponent->getStrength() - item.field_8;
+        strength = std::max(strength, 0);
+        if (strength > mCachedSideStrength)
+            mCachedSideStrength = strength;
     }
 }
 
@@ -95,7 +95,7 @@ void ComparatorCapacitor::updateDependencies(CircuitSceneGraph *graph, const Blo
                 ++it;
             } else {
                 BlockPos tmp = it->mPos;
-                field_68->add(it->mComponent, it->field_8, &tmp);
+                mSideDependencies->add(it->mComponent, it->field_8, &tmp);
                 it = mDependencies->erase(it);
             }
         }

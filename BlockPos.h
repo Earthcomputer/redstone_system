@@ -34,6 +34,7 @@ public:
     BlockPos operator-(const BlockPos &pos) const noexcept {
         return {x - pos.x, y - pos.y, z - pos.z};
     }
+    BlockPos & operator=(const BlockPos &pos) noexcept = default;
 };
 namespace std {
     template<>

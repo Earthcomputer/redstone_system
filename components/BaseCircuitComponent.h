@@ -24,7 +24,7 @@ public:
     int mStrength; // off = 0x34
     Facing::Facing mDirection; // off = 0x38
     bool mAllowPowerUp; // off = 0x39
-    bool field_3A;
+    bool mAllowPowerDown; // off = 0x3A
 public:
     BaseCircuitComponent();
 
@@ -142,20 +142,14 @@ public:
     }
 
     bool canAllowPowerDown() {
-        // TODO: impl
+        return mAllowPowerDown;
     }
 
-    bool trackPowerSource(const CircuitTrackingInfo *trackingInfo, int a3, bool a4, bool a5) {
-        // TODO: impl
-    }
+    bool trackPowerSource(const CircuitTrackingInfo *trackingInfo, int a3, bool a4, bool a5);
 
-    void trackPowerSourceDuplicates(const CircuitTrackingInfo *trackingInfo, int a3, bool a4) {
-        // TODO: impl
-    }
+    bool trackPowerSourceDuplicates(const CircuitTrackingInfo *trackingInfo, int a3, bool a4);
 
-    bool hasDirectPower() {
-        // TODO: impl
-    }
+    bool hasDirectPower();
 };
 
 #endif //REDSTONE_SYSTEM_BASECIRCUITCOMPONENT_H

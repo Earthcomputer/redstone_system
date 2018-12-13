@@ -14,17 +14,17 @@ private:
     int field_48;
     int field_4C;
     int field_50;
-    bool field_54;
-    int field_58;
-    int field_5C;
+    bool mSubtractMode; // off = 0x54
+    int mCachedRearStrength; // off = 0x58
+    int mCachedSideStrength; // off = 0x5C
     int field_60;
-    CircuitComponentList *field_68;
+    CircuitComponentList *mSideDependencies; // off = 0x64
 public:
     ComparatorCapacitor();
 
     // VTABLE #1
     ~ComparatorCapacitor() override {
-        delete field_68;
+        delete mSideDependencies;
     }
 
     // VTABLE #6
@@ -68,14 +68,14 @@ public:
 private:
     int GetRearStrength() {
         if (field_44 == -1)
-            return field_58;
+            return mCachedRearStrength;
         else
             return field_44;
     }
 
     int GetSideStrength() {
         if (field_48 == -1)
-            return field_5C;
+            return mCachedSideStrength;
         else
             return std::max(field_48, field_4C);
     }
