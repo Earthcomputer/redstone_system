@@ -34,4 +34,4 @@ add_executable(redstone_system
         components/TransporterComponent.cpp
         components/TransporterComponent.h
         Facing.h
-        main.cpp components/ComponentType.h)
+        main.cpp components/ComponentType.h CircuitSceneGraph.cpp)
