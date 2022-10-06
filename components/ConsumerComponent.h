@@ -56,7 +56,7 @@ public:
     }
 
     bool isPromotedToProducer() {
-        // TODO: impl
+        return false;
     }
 };
 
