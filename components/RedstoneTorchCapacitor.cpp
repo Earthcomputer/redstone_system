@@ -197,7 +197,7 @@ int RedstoneTorchCapacitor::FindStrongestStrength(const BlockPos *pos, CircuitSy
     CircuitComponentList::Item *v26 = nullptr, *v25 = nullptr, *v24 = nullptr;
 
     for (auto v22 = mDependencies->begin(); v22 != mDependencies->end(); ++v22) {
-        CircuitComponentList::Item *v20 = v22.base();
+        CircuitComponentList::Item *v20 = v22._Unwrapped();
         BaseCircuitComponent *component = v20->mComponent;
         if (component) {
             ComponentType v18 = component->getBaseType();
@@ -213,13 +213,13 @@ int RedstoneTorchCapacitor::FindStrongestStrength(const BlockPos *pos, CircuitSy
                             v16 = std::max(v16, 0);
                             if (v16 >= v27 && v16 != 0) {
                                 v27 = v16;
-                                v26 = v13.base();
+                                v26 = v13._Unwrapped();;
                                 if (*pos != v13->mPos) {
-                                    v24 = v13.base();
+                                    v24 = v13._Unwrapped();
                                 }
                             }
                             if (*pos == v13->mPos) {
-                                v25 = v13.base();
+                                v25 = v13._Unwrapped();
                                 v15 = v16;
                             }
                         }
